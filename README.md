@@ -1,0 +1,104 @@
+# VONet: Unsupervised Video Object Learning With Parallel U-Net Attention and Object-wise Sequential VAE
+
+This repo releases the code for the paper
+
+> VONet: Unsupervised Video Object Learning With Parallel U-Net Attention and Object-wise Sequential VAE, Yu and Xu, ICLR 2024.
+
+## What is VONet?
+
+VONet is an unsupervised video object learning method that decomposes a video scene
+into structural object representations without any supervision from depth, optical flow,
+or segmentation. VONet is also trained from scratch, without relying on pretrained visual
+features.
+
+VONet's architecture
+![VONet's architecture](images/vonet_architecture.png)
+
+Example results
+![Results](images/results.png)
+
+
+## Installation
+
+Our algorithm is based on [Agent Learning Framework (ALF)](https://github.com/HorizonRobotics/alf). Python3.7+ is currently supported by ALF and [Virtualenv](https://virtualenv.pypa.io/en/latest/) is recommended for the installation.
+
+After activating a virtual env, download and install VONet:
+
+```bash
+git clone https://github.com/hnyu/vonet
+cd vonet
+# As of Jan 2024, ALF uses torch==1.11 which by default has cuda==10.2. For recent
+# GPU cards (3090 and after), cuda>=11.3 is needed.
+pip install -e . --extra-index-url https://download.pytorch.org/whl/cu113
+# With an old GPU card, you might just do:
+# pip install -e .
+```
+
+We tested the installation in Ubuntu20.04+CUDA11.4 with Nvidia 3090 GPUs.
+
+## Docker
+
+If by any chance the installation is not successful on your OS, you can use this
+docker [image]() which is built from the [docker file](docker/Dockerfile):
+
+```bash
+docker run --gpus all -it horizonrobotics/misc:vonet-train /bin/bash
+```
+
+It has already installed all dependencies for VONet.
+
+## MOVI datasets preparation
+
+The official MOVI datasets are hosted on `gs://kubric-public/tfds` (https://github.com/google-research/kubric/tree/main/challenges/movi). However, our [data processing pipeline](vonet/movi.py) assumes that
+the MOVI datasets are stored locally. This is not necessary but it avoids network
+connection issues that could happen occasionally and speeds up data loading.
+
+We convert each video of MOVI-{A-E} to a pickle file using the script `scripts/download_movi_data.py`.
+As an example, we have included a toy subset (10 training videos + 2 validation videos)
+of MOVI-A [here](data/movi_a).
+
+The dataset paths should be like `$MOVI_ROOT/movi_{a,b,c,d,e}/{train,validation}`,
+and an environment variable `MOVI_ROOT` should point to the parent directory that
+contains all the five datasets.
+
+## Training VONet
+
+For a test run,
+
+```bash
+cd vonet
+MOVI_ROOT=$(pwd)/data python -m alf.bin.train --root_dir /tmp/vonet --conf vonet/confs/movi_a_exp_conf.py --conf_param="_CONFIG._USER.debug=1"
+```
+
+This will train VONet on the toy MOVI-A dataset in the debug mode, with much fewer GPU and CPU resources.
+
+To launch the full training job, you can modify `MOVI_ROOT` pointing to the directory that
+contains full MOVI datasets, and remove `--conf_param="_CONFIG._USER.debug=1"`. You also need ALF's multi-gpu training:
+
+```bash
+MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.train --root_dir /tmp/vonet --conf vonet/confs/movi_a_exp_conf.py --distributed multi-gpu
+```
+
+This will use all CUDA visible devices.
+
+Warning: training a full job on any of the five datasets will require at least 4 Nvidia 3090 GPUs and xxx CPU memory. Please
+see the Experiments section of the paper for more details.
+
+To view the training curves
+
+```bash
+tensorboard --logdir /tmp/vonet
+```
+
+## Issues
+For any question, please open an issue in this repo.
+
+## Citation
+```
+@inproceedings{Yu2024VONet,
+    author={Haonan Yu and Wei Xu},
+    title={VONet: Unsupervised Video Object Learning With Parallel U-Net Attention and Object-wise Sequential VAE},
+    booktitle={ICLR},
+    year={2024}
+}
+```
