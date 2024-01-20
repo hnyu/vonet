@@ -116,5 +116,8 @@ RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6 libxext-dev
 RUN pip install alf@git+https://github.com/HorizonRobotics/alf@pytorch --extra-index-url https://download.pytorch.org/whl/cu113
 RUN pip install scikit-image moviepy pillow==9.4.0 imageio==2.27.0
 
+# Enable determinism for pytorch
+ENV CUBLAS_WORKSPACE_CONFIG=:4096:8
+
 # Clean up to make the resulting image smaller
 RUN  rm -rf /var/lib/apt/lists/*

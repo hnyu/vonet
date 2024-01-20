@@ -102,10 +102,30 @@ tensorboard --logdir /tmp/vonet
 ```
 
 Under "SCALARS", you can check the FG-ARI and mIoU metric curves in the
-"VONetAgent/rollout_fg_ari" and "VONetAgent/rollout_mIoU" tabs.
+"VONetAgent/rollout_fg_ari" and "VONetAgent/rollout_mIoU" tabs. (Note that the
+metrics shown here are for *training* videos.)
 
 Under "IMAGES", you can check soft attention masks in the "mask" tab, and
 hard segmentation masks in the "seg" tab.
+
+## Evaluation
+
+To evaluate a trained model on evaluation videos:
+
+```bash
+MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.play --root_dir /tmp/vonet --num_episodes <num_eval_videos> --conf_param="_CONFIG._USER.test=1" --norender
+```
+Both FG-ARI and mIoU values will be output for each evaluated video in the format:
+
+```bash
+=> FG-ARI: xxxxxx, mIoU: xxxxxx
+```
+
+Also you can visualize the results into an mp4 video:z
+
+```bash
+MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.play --root_dir /tmp/vonet --num_episodes <num_eval_videos> --conf_param="_CONFIG._USER.test=1" --record_file /tmp/eval.mp4 --alg_render
+```
 
 ## Issues
 For any question, please open an issue in this repo.

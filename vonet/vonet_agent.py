@@ -425,6 +425,12 @@ class VONetAgent(RLAlgorithm):
                                       step.info.dec.pred_rec)
         alg_step = self._ari_step(time_step, alg_step)
 
+        fg_ari = alg_step.info.fg_ari[time_step.is_last()]
+        miou = alg_step.info.miou[time_step.is_last()]
+        if fg_ari.numel() > 0:
+            for i in range(fg_ari.numel()):
+                print(f"=> FG-ARI: {fg_ari[i]}, mIoU: {miou[i]}")
+
         action = self._action_spec.sample(time_step.reward.shape[:1])
         vi_step = self._visualizer.predict_step((alg_step, time_step),
                                                 state.vi)
