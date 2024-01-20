@@ -11,10 +11,19 @@ into structural object representations without any supervision from depth, optic
 or segmentation. VONet is also trained from scratch, without relying on pretrained visual
 features.
 
-VONet's architecture
+VONet has two important features that make it different from prior works:
+- While utilizing a U-Net architecture, VONet employs an efficient and effective parallel attention inference process, generating attention masks for
+all slots simultaneously within a frame. This makes its inference time constant instead of linear regardless of
+the increasing number of object slots.
+- To enhance the temporal consistency of each object mask across consecutive video frames, VONet develops an object-wise sequential VAE framework.
+
+Evaluated by two metrics FG-ARI and mIoU, VONet is the leading unsupervised method for object learning across five MOVI datasets, encompassing videos of diverse complexities.
+
+
+#### VONet's architecture
 ![VONet's architecture](images/vonet_architecture.png)
 
-Example results
+#### Example results
 ![Results](images/results.png)
 
 
@@ -38,8 +47,8 @@ We tested the installation in Ubuntu20.04+CUDA11.4 with Nvidia 3090 GPUs.
 
 ## Docker
 
-If by any chance the installation is not successful on your OS, you can use this
-docker [image]() which is built from the [docker file](docker/Dockerfile):
+If by any chance the installation is not successful on your OS, you can use a
+docker image built from this [docker file](docker/Dockerfile):
 
 ```bash
 docker run --gpus all -it horizonrobotics/misc:vonet-train /bin/bash
