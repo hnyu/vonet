@@ -115,17 +115,21 @@ To evaluate a trained model on evaluation videos:
 ```bash
 MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.play --root_dir /tmp/vonet --num_episodes <num_eval_videos> --conf_param="_CONFIG._USER.test=1" --norender
 ```
-Both FG-ARI and mIoU values will be output for each evaluated video in the format:
+Both FG-ARI and mIoU values will be output for each video in the format:
 
 ```bash
 => FG-ARI: xxxxxx, mIoU: xxxxxx
 ```
 
-Also you can visualize the results into an mp4 video:z
+Also you can visualize the results into an mp4 video:
 
 ```bash
 MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.play --root_dir /tmp/vonet --num_episodes <num_eval_videos> --conf_param="_CONFIG._USER.test=1" --record_file /tmp/eval.mp4 --alg_render
 ```
+
+Visualization example:
+
+![Visualization example](images/movi_d_6268.gif)
 
 ## Issues
 For any question, please open an issue in this repo.
