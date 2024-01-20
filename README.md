@@ -70,7 +70,7 @@ The dataset paths should be like `$MOVI_ROOT/movi_{a,b,c,d,e}/{train,validation}
 and an environment variable `MOVI_ROOT` should point to the parent directory that
 contains all the five datasets.
 
-## Training VONet
+## Train VONet
 
 For a test run,
 
@@ -93,11 +93,19 @@ This will use all CUDA visible devices.
 Warning: training a full job on any of the five datasets will require at least 4 Nvidia 3090 GPUs and xxx CPU memory. Please
 see the Experiments section of the paper for more details.
 
-To view the training curves
+## View training results
+
+Launch the tensorboard
 
 ```bash
 tensorboard --logdir /tmp/vonet
 ```
+
+Under "SCALARS", you can check the FG-ARI and mIoU metric curves in the
+"VONetAgent/rollout_fg_ari" and "VONetAgent/rollout_mIoU" tabs.
+
+Under "IMAGES", you can check soft attention masks in the "mask" tab, and
+hard segmentation masks in the "seg" tab.
 
 ## Issues
 For any question, please open an issue in this repo.
