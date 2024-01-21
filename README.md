@@ -90,7 +90,7 @@ MOVI_ROOT=<YOUR_MOVI_ROOT> python -m alf.bin.train --root_dir /tmp/vonet --conf 
 
 This will use all CUDA visible devices.
 
-Warning: training a full job on any of the five datasets will require at least 4 Nvidia 3090 GPUs and xxx CPU memory. Please
+Warning: training a full job on any of the five datasets will require at least 4 Nvidia 3090 GPUs and 30G CPU memory. Please
 see the Experiments section of the paper for more details.
 
 ## View training results
