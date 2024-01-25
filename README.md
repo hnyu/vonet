@@ -41,6 +41,9 @@ cd vonet
 pip install -e . --extra-index-url https://download.pytorch.org/whl/cu113
 # With an old GPU card, you might just do:
 # pip install -e .
+
+# Upgrade pillow and imageio versions
+pip install pillow==9.4.0 imageio==2.27.0
 ```
 
 We tested the installation in Ubuntu20.04+CUDA11.4 with Nvidia 3090 GPUs.

@@ -113,7 +113,7 @@ RUN ln -sf /usr/bin/python3.8 /usr/bin/python \
 RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6 libxext-dev
 
 # Install the latest version of alf
-RUN pip install alf@git+https://github.com/HorizonRobotics/alf@pytorch --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install alf@git+https://github.com/HorizonRobotics/alf.git@9d4898954de9eea6aebb4c5ad8ebbd19eaa5d8f1 --extra-index-url https://download.pytorch.org/whl/cu113
 RUN pip install scikit-image moviepy pillow==9.4.0 imageio==2.27.0
 
 # Enable determinism for pytorch
